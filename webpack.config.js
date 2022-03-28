@@ -24,5 +24,24 @@ module.exports = {
             analyzerMode: 'static', // the report uotputs to an HTML file in the dist folder
         })
     ],
-    mode: 'development',
+    module: {
+        rules: [{
+            test: /\.jpg$/i,
+            use: [{
+                loader: 'file-loader', // convert image to webpack
+                options: {
+                    esModule: false,
+                    name(file) {
+                        return '[path][name].[ext]'
+                    },
+                    publicPath: function(url) {
+                        return url.replace('../', '/assets');
+                    }
+                }
+            }, {
+                loader: 'image-webpack-loader' // optimizing image
+            }]
+        }]
+    },
+    mode: 'development'
 };
